@@ -12,8 +12,28 @@ void Train();
 std::vector<GestureVector> parffArse(std::string path);
 void trainForest(std::vector<GestureVector> gesture, RandomizedForest forest, std::string filename);
 void DisplayLetter(int letter);
+void OpenSocket();
+void CloseSocket();
 
 std::string title = "Sign Language Letters";
+void PassGestureToSocket(int gesture)
+{
+	//The gesture comes over as a integer from the random forest code
+	//Need to change from integer to character by lookup table
+	//each integer corresponds to a letter
+	//write code to pass gesture over socket
+
+}
+void OpenSocket()
+{
+	//write code to open socket
+
+}
+void CloseSocket()
+{
+	//write code to close socket
+
+}
 void DisplayLetter(int letter)
 {
 	std::string image;
@@ -142,6 +162,7 @@ void Test(std::string treeFile)
 			//std::cout << classify << std::endl;
 			data.clear();
 		}
+		PassGestureToSocket(classify);
 		DisplayLetter(classify);
 		lc.clearVectors();
 	}
@@ -179,7 +200,9 @@ int main(int argc, char* argv[])
 	}
 	else if (mode.compare("test") == 0)
 	{
+		OpenSocket();
 		Test("testTree");
+		CloseSocket();
 	}
 	else if (mode.compare("capture new") == 0)
 	{
@@ -191,9 +214,3 @@ int main(int argc, char* argv[])
 	}
 	return 0;
 }
-
-
-
-
-
-
