@@ -1,6 +1,6 @@
 #include <fstream>
 #include <sstream>
-#include "../inc/GestureVector.h"
+#include "GestureVector.h"
 
 GestureVector::GestureVector(std::vector<float> data, unsigned int lab)
 {

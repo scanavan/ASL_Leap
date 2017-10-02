@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.0 FATAL_ERROR)
 cmake_policy(VERSION 2.8)
-PROJECT(LeapCapture)
+PROJECT(ASL_Leap)
 #make sure we only build debug and release
 SET(CMAKE_CONFIGURATION_TYPES Debug Release CACHE STRING "" FORCE)
 
@@ -8,7 +8,7 @@ OPTION(RUN_PATCH "Execute run_patch" OFF)
 
 #set directory variables
 SET(LEAP_DIR "D:/ThirdParty/Leap/LeapSDK")
-SET(RF_LIB_DIR "../RFlib")
+SET(RF_LIB_DIR "./RFlib")
 SET(SOURCE_DIR "source")
 SET(INCLUDE_DIR "include")
 SET(OpenCV_LINK_DIRECTORIES "D:/ThirdParty/OpenCV/build/x64/vc14/lib")
@@ -37,6 +37,6 @@ INCLUDE_DIRECTORIES(${LEAP_DIR}/include ${INCLUDE_DIR} ${RF_LIB_DIR}/inc ${OpenC
 #include opencv lib directory
 LINK_DIRECTORIES(${LEAP_DIR}/lib/x64/ ${OpenCV_LINK_DIRECTORIES})
 #create exe
-ADD_EXECUTABLE(LeapCapture ${SOURCE_FILES} ${HEADER_FILES} ${RF_LIB_HEADER_FILES} ${RF_LIB_SOURCE_FILES})
+ADD_EXECUTABLE(ASL_Leap ${SOURCE_FILES} ${HEADER_FILES} ${RF_LIB_HEADER_FILES} ${RF_LIB_SOURCE_FILES})
 #link libs
-TARGET_LINK_LIBRARIES(LeapCapture Leap.lib opencv_world330.lib)
+TARGET_LINK_LIBRARIES(ASL_Leap Leap.lib opencv_world330.lib)

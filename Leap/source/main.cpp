@@ -1,8 +1,8 @@
 #include <Windows.h>
 #include "LeapCapture.h"
 #include <fstream>
-#include "../inc/RandomizedForest.h"
-#include "../inc/GestureVector.h"
+#include "RandomizedForest.h"
+#include "GestureVector.h"
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
