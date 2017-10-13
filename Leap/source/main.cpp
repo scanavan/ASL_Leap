@@ -1,4 +1,4 @@
-#include <Windows.h>
+//#include <Windows.h>
 #include "LeapCapture.h"
 #include <fstream>
 #include "RandomizedForest.h"
@@ -7,6 +7,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <WS2tcpip.h>
 #include <string>
+#pragma comment(lib, "ws2_32.lib")
 
 void Capture(std::string mode);
 void Test(std::string treeFile);
@@ -14,7 +15,7 @@ void Train();
 std::vector<GestureVector> parffArse(std::string path);
 void trainForest(std::vector<GestureVector> gesture, RandomizedForest forest, std::string filename);
 void DisplayLetter(int letter);
-SOCKET sock;
+SOCKET sock = INVALID_SOCKET;
 void OpenSocket();
 void CloseSocket();
 
@@ -26,9 +27,10 @@ void PassGestureToSocket(int gesture)
 	//each integer corresponds to a letter
 	//write code to pass gesture over socket
 
-	std::string placeholder;
+	std::string placeholder = "A";
 	char buffer[4096];
 
+	std::cout << "sending...\n";
 	//Send the information
 	int sendResult = send(sock, placeholder.c_str(), placeholder.size() + 1, 0);
 	if (sendResult != SOCKET_ERROR) {
@@ -37,12 +39,12 @@ void PassGestureToSocket(int gesture)
 		int bytesRecieved = recv(sock, buffer, 4096, 0);
 		
 	}
-	//Code incomplete
+	//Code incomplete, placeholder code for right now
 }
 void OpenSocket()
 {
 	//Initialize Winsock
-	std::string ipAddress = "127.0.0.1";
+	std::string ipAddress = "localhost";
 	int port = 54000;
 
 	WSADATA data;
@@ -68,12 +70,17 @@ void OpenSocket()
 	inet_pton(AF_INET, ipAddress.c_str(), &hint.sin_addr);
 
 	//Connect to server
-	int connResult = connect(sock, (sockaddr*)&hint, sizeof(hint));
-	if (connResult == SOCKET_ERROR) {
+	//int connResult = 
+	while (connect(sock, (sockaddr*)&hint, sizeof(hint)) == SOCKET_ERROR)
+	{
 		std::cerr << "Can't connect to server, error #" << WSAGetLastError() << std::endl;
-		CloseSocket();
-		return;
+	//	
 	}
+	//if (connResult == SOCKET_ERROR) {
+	//	std::cerr << "Can't connect to server, error #" << WSAGetLastError() << std::endl;
+	//	CloseSocket();
+	//	return;
+	//}
 }
 void CloseSocket()
 {
@@ -239,7 +246,10 @@ int main(int argc, char* argv[])
 {
 	//Need function to train random forest
 	//function needs to take LeapCapture data and create a tree
-	std::string mode(argv[1]);
+	OpenSocket();
+	PassGestureToSocket(1);
+	CloseSocket();
+	/*std::string mode(argv[1]);
 	if (mode.compare("train") == 0)
 	{
 		Train();
@@ -257,6 +267,6 @@ int main(int argc, char* argv[])
 	else if (mode.compare("capture append") == 0)
 	{
 		Capture("append");
-	}
+	}*/
 	return 0;
 }
