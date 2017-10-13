@@ -5,6 +5,8 @@
 #include "GestureVector.h"
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <WS2tcpip.h>
+#include <string>
 
 void Capture(std::string mode);
 void Test(std::string treeFile);
@@ -12,6 +14,7 @@ void Train();
 std::vector<GestureVector> parffArse(std::string path);
 void trainForest(std::vector<GestureVector> gesture, RandomizedForest forest, std::string filename);
 void DisplayLetter(int letter);
+SOCKET sock;
 void OpenSocket();
 void CloseSocket();
 
@@ -23,16 +26,59 @@ void PassGestureToSocket(int gesture)
 	//each integer corresponds to a letter
 	//write code to pass gesture over socket
 
+	std::string placeholder;
+	char buffer[4096];
+
+	//Send the information
+	int sendResult = send(sock, placeholder.c_str(), placeholder.size() + 1, 0);
+	if (sendResult != SOCKET_ERROR) {
+		//Response
+		ZeroMemory(buffer, 4096);
+		int bytesRecieved = recv(sock, buffer, 4096, 0);
+		
+	}
+	//Code incomplete
 }
 void OpenSocket()
 {
-	//write code to open socket
+	//Initialize Winsock
+	std::string ipAddress = "127.0.0.1";
+	int port = 54000;
 
+	WSADATA data;
+	WORD ver = MAKEWORD(2, 2);
+	int wsResult = WSAStartup(ver, &data);
+	if (wsResult != 0) {
+		std::cerr << "Can't start WinSock, error #" << wsResult << std::endl;
+		return;
+	}
+
+	//Socket Creation
+	sock = socket(AF_INET, SOCK_STREAM, 0);
+	if (sock == INVALID_SOCKET) {
+		std::cerr << "Cant create socket, error #" << WSAGetLastError() << std::endl;
+		WSACleanup();
+		return;
+	}
+
+	//Socket and Port Info
+	sockaddr_in hint;
+	hint.sin_family = AF_INET;
+	hint.sin_port = htons(port);
+	inet_pton(AF_INET, ipAddress.c_str(), &hint.sin_addr);
+
+	//Connect to server
+	int connResult = connect(sock, (sockaddr*)&hint, sizeof(hint));
+	if (connResult == SOCKET_ERROR) {
+		std::cerr << "Can't connect to server, error #" << WSAGetLastError() << std::endl;
+		CloseSocket();
+		return;
+	}
 }
 void CloseSocket()
 {
-	//write code to close socket
-
+	closesocket(sock);
+	WSACleanup();
 }
 void DisplayLetter(int letter)
 {
