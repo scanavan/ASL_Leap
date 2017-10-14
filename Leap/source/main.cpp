@@ -11,7 +11,7 @@
 
 void Capture(std::string mode);
 void Test(std::string treeFile);
-void Train();
+void Train(std::string arffFile, std::string treeName);
 std::vector<GestureVector> parffArse(std::string path);
 void trainForest(std::vector<GestureVector> gesture, RandomizedForest forest, std::string filename);
 void DisplayLetter(int letter);
@@ -192,6 +192,10 @@ std::vector<GestureVector> parffArse(std::string path)
 		}
 		ifs.close();
 	}
+	else
+	{
+		std::cout << "Failed to open " << path << std::endl;
+	}
 	return data;
 }
 void Test(std::string treeFile)
@@ -220,9 +224,8 @@ void Test(std::string treeFile)
 		lc.clearVectors();
 	}
 }
-void Train()
+void Train(std::string arffFile, std::string treeName)
 {
-	//NOTE: This function should probably take a string that is the arrf file to read.
 	unsigned int nb_labels = 5;
 	unsigned vector_size;
 	double minV = -2. * PI;
@@ -231,33 +234,37 @@ void Train()
 	unsigned int depth = 37;
 	//unsigned int nb_trees = 15;
 
-	std::vector<GestureVector> gesture = parffArse("FRIDemoSWTAR.arff");
+	std::cout << "Parsing arff file..." << std::endl;
+	std::vector<GestureVector> gesture = parffArse(arffFile);
 	if (!gesture.empty())
 	{
+		std::cout << "Training random forest...";
 		vector_size = static_cast<unsigned>(gesture[0].getFeatures().size());
 		//for (int trees_i = 4; trees_i <= 30; ++trees_i) 
 		{
 			RandomizedForest forest(nb_labels, false, depth, 15, vector_size, minV, maxV);
-			trainForest(gesture, forest, "testTree");
+			trainForest(gesture, forest, treeName);
 		}
+	}
+	else
+	{
+		std::cout << "Failed to parse arff file correctly..." << std::endl;
 	}
 }
 int main(int argc, char* argv[])
 {
-	//Need function to train random forest
-	//function needs to take LeapCapture data and create a tree
-	OpenSocket();
-	PassGestureToSocket(1);
-	CloseSocket();
-	/*std::string mode(argv[1]);
+	std::string mode(argv[1]);
 	if (mode.compare("train") == 0)
 	{
-		Train();
+		std::string arffFile(argv[2]);
+		std::string treeName(argv[3]);
+		Train(arffFile, treeName);
 	}
 	else if (mode.compare("test") == 0)
 	{
+		std::string treeName(argv[2]);
 		OpenSocket();
-		Test("testTree");
+		Test(treeName);
 		CloseSocket();
 	}
 	else if (mode.compare("capture new") == 0)
@@ -267,6 +274,6 @@ int main(int argc, char* argv[])
 	else if (mode.compare("capture append") == 0)
 	{
 		Capture("append");
-	}*/
+	}
 	return 0;
 }
