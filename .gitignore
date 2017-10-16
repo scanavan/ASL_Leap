@@ -1,4 +1,15 @@
+Headset/Temp/
+Headset/Library/
+Headset/Obj/
+ 
+ *.csproj
+ *.unityproj
+ *.sln
+ *.user
+ *.userprefs
+ *.DS_store
 
 Leap/CmakeLists.txt
 Leap/CmakeLists.txt
 Leap/CmakeLists.txt
+Headset/Library/metadata/00/00000000000000002000000000000000
