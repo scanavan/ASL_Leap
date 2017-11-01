@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
+# Visual Studio 2017
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Headset", "Headset.csproj", "{0B8434C3-23BE-A259-CB51-506679387B77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Headset.Plugins", "Headset.Plugins.csproj", "{336DE5F8-B741-634A-3CAE-5CD11BDD5F4E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Headset.Editor", "Headset.Editor.csproj", "{4324C8A3-F749-436E-7639-8FCA0E752593}"
 EndProject
@@ -15,6 +17,10 @@ Global
 		{0B8434C3-23BE-A259-CB51-506679387B77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B8434C3-23BE-A259-CB51-506679387B77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B8434C3-23BE-A259-CB51-506679387B77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{336DE5F8-B741-634A-3CAE-5CD11BDD5F4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{336DE5F8-B741-634A-3CAE-5CD11BDD5F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{336DE5F8-B741-634A-3CAE-5CD11BDD5F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{336DE5F8-B741-634A-3CAE-5CD11BDD5F4E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4324C8A3-F749-436E-7639-8FCA0E752593}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4324C8A3-F749-436E-7639-8FCA0E752593}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4324C8A3-F749-436E-7639-8FCA0E752593}.Release|Any CPU.ActiveCfg = Release|Any CPU

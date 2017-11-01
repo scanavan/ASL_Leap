@@ -238,7 +238,7 @@ void LeapCapture::writeArffFile(char button)
 	{
 		outArffFile << fingertips[i].x - palmPosition.x << ", " << fingertips[i].y - palmPosition.y << ", " << fingertips[i].z - palmPosition.z << ", ";
 	}
-	int label = button - 65;
+	int label = button - 64;
 	if (label < 10)
 	{
 		outArffFile << "G0";

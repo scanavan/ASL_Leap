@@ -20,32 +20,38 @@ void OpenSocket();
 void CloseSocket();
 
 std::string title = "Sign Language Letters";
-void PassGestureToSocket(int gesture)
+void PassGestureToSocket(std::string gesture)
 {
 	//The gesture comes over as a integer from the random forest code
 	//Need to change from integer to character by lookup table
 	//each integer corresponds to a letter
 	//write code to pass gesture over socket
 
-	std::string placeholder = "A";
-	char buffer[4096];
 
-	std::cout << "sending...\n";
+	char buffer[4096];
 	//Send the information
-	int sendResult = send(sock, placeholder.c_str(), placeholder.size() + 1, 0);
-	if (sendResult != SOCKET_ERROR) {
-		//Response
-		ZeroMemory(buffer, 4096);
-		int bytesRecieved = recv(sock, buffer, 4096, 0);
-		
-	}
-	//Code incomplete, placeholder code for right now
+	int sendResult = send(sock, gesture.c_str(), gesture.size() + 1, 0);
+	//std::cout << "sent...\n";
+	//if (sendResult != SOCKET_ERROR)
+	//{
+	//	//Response
+	//	ZeroMemory(buffer, 4096);
+	//	int bytesRecieved = recv(sock, buffer, 4096, 0);
+	//	std::cout << "error" << std::endl;
+	//}
+	//std::cout << "done" << std::endl;
 }
+
+std::string GestureToString(int gesture) {
+	std::string alphabet[] = { "No Solution", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+	return alphabet[gesture];
+}
+
 void OpenSocket()
 {
 	//Initialize Winsock
-	std::string ipAddress = "localhost";
-	int port = 54000;
+	std::string ipAddress = "127.0.0.1";
+	int port = 9999;
 
 	WSADATA data;
 	WORD ver = MAKEWORD(2, 2);
@@ -118,12 +124,12 @@ void Capture(std::string mode)
 	LeapCapture lc;
 	if (mode == "write")
 	{
-		lc.WriteArffFileHeader("FRIDemoSWTAR.arff");//"C:/Users/IASA-FRI/Documents/leapArffFiles/leapData.arff"
+		lc.WriteArffFileHeader("demo.arff");//"C:/Users/IASA-FRI/Documents/leapArffFiles/leapData.arff"
 	}
 	else if (mode == "append")
 	{
 		//outArffFile.open("test.arff", std::fstream::in | std::fstream::out | std::fstream::app);
-		lc.AppendArffFile("FRIDemoSWTAR.arff");
+		lc.AppendArffFile("demo.arff");
 	}
 	while (1)
 	{
@@ -206,7 +212,8 @@ void Test(std::string treeFile)
 	forest.load(treeFile + ".rf");
 	std::cout << "DONE." << std::endl;
 	std::vector<float> data;
-	cv::namedWindow(title);
+	std::string letter = "";
+	//cv::namedWindow(title);
 	while (1)
 	{
 		bool found = lc.Capture();
@@ -216,11 +223,17 @@ void Test(std::string treeFile)
 			lc.GetGestureVector(data);
 			GestureVector gesture(data, 1);
 			classify = forest.classify(gesture);
-			//std::cout << classify << std::endl;
+			std::cout << "Classify: " << classify << std::endl;
+			letter = GestureToString(classify);
+			std::cout << letter << std::endl;
 			data.clear();
 		}
-		PassGestureToSocket(classify);
-		DisplayLetter(classify);
+		else
+		{
+			letter = "No Hand";
+		}
+		PassGestureToSocket(letter);
+		//DisplayLetter(classify);
 		lc.clearVectors();
 	}
 }
@@ -251,6 +264,7 @@ void Train(std::string arffFile, std::string treeName)
 		std::cout << "Failed to parse arff file correctly..." << std::endl;
 	}
 }
+
 int main(int argc, char* argv[])
 {
 	std::string mode(argv[1]);
