@@ -121,11 +121,36 @@ void LeapCapture::WriteArffFileHeader(std::string outName)
 		<< "@ATTRIBUTE fingertipDistanceX5 NUMERIC\n"
 		<< "@ATTRIBUTE fingertipDistanceY5 NUMERIC\n"
 		<< "@ATTRIBUTE fingertipDistanceZ5 NUMERIC\n"
-		<< "@ATTRIBUTE class {G01,G02,G03,G04,G05,G06,G07,G08,G09,G11,G12,G13,G14,G15,G16,G17,G18,G19,G20,G21,G22,G23,G24,G25}\n"
+		<< "@ATTRIBUTE averageVelocityX NUMERIC\n"
+		<< "@ATTRIBUTE averageVelocityY NUMERIC\n"
+		<< "@ATTRIBUTE averageVelocityZ NUMERIC\n"
+		<< "@ATTRIBUTE class {G01,G02,G03,G04,G05,G06,G07,G08,G09,G10,G11,G12,G13,G14,G15,G16,G17,G18,G19,G20,G21,G22,G23,G24,G25,G26}\n"
 		<< "\n@DATA\n";
 }
-bool LeapCapture::Capture()
+void LeapCapture::ClearVelocity()
 {
+	velocities.clear();
+}
+void LeapCapture::CalculateVelocity() 
+{
+	average.x = 0;
+	average.y = 0;
+	average.z = 0;
+	for (int i = 0; i < velocities.size(); i++) {
+		average += velocities.at(i);
+	}
+	average /= velocities.size();
+	//std::cout << average << std::endl;
+}
+bool LeapCapture::Capture(bool dynamic)
+{
+	if (dynamic)
+	{
+		extendedFingers.clear();
+		fingerDirections.clear();
+		fingertips.clear();
+		stableTipPositions.clear();
+	}
 	palmPosition = Leap::Vector(0.f, 0.f, 0.f);
 	const Leap::Frame frame = controller.frame();
 	Leap::HandList hands = frame.hands();
@@ -145,6 +170,15 @@ bool LeapCapture::Capture()
 		normal = hand.palmNormal();
 		direction = hand.direction();
 		palmPosition = hand.palmPosition();
+		if (!dynamic)
+		{
+			average = hand.palmVelocity();
+		}
+		else
+		{
+			velocities.push_back(hand.palmVelocity());
+		}
+		//std::cout << average << std::endl;
 		pinchStrength = hand.pinchStrength();
 		frontMostFinger = frame.fingers().frontmost();
 
@@ -201,12 +235,13 @@ bool LeapCapture::Capture()
 		scaleFactor = frame.scaleFactor(referenceFrame);
 		
 	}
-	if (!handFound)
+	if (!handFound && !dynamic)
 	{
 		fingerDirections.clear();
 		fingertips.clear();
 		stableTipPositions.clear();
 	}
+
 	return handFound;
 }
 void LeapCapture::writeArffFile(char button)
@@ -238,6 +273,7 @@ void LeapCapture::writeArffFile(char button)
 	{
 		outArffFile << fingertips[i].x - palmPosition.x << ", " << fingertips[i].y - palmPosition.y << ", " << fingertips[i].z - palmPosition.z << ", ";
 	}
+	outArffFile << average.x << ", " << average.y << ", " << average.z << ", ";
 	int label = button - 64;
 	if (label < 10)
 	{

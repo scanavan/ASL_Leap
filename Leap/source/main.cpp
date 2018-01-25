@@ -122,8 +122,10 @@ void Capture(std::string mode)
 {
 	int ctr = 0;
 	LeapCapture lc;
+	bool jFlag = false, zFlag = false;
 	if (mode == "write")
 	{
+		std::cout << "write" << std::endl;
 		lc.WriteArffFileHeader("demo.arff");//"C:/Users/IASA-FRI/Documents/leapArffFiles/leapData.arff"
 	}
 	else if (mode == "append")
@@ -137,21 +139,56 @@ void Capture(std::string mode)
 		//ADD EXTENDED FINGERS TO ARFFWRITER FUNCTION AND TO @ATTRIBUTES
 		for (char button = 65; button < 91; button++)
 		{
-			if (GetAsyncKeyState(button) && captured)
+			if (GetAsyncKeyState(button) && captured && !jFlag && !zFlag)
 			{
 				if (button == 'J' || button == 'Z')
 				{
-					std::cout << button << " is not a valid gesture right now!" << std::endl;
+					if (button == 'J') {
+						jFlag = true;
+					}
+					else {
+						zFlag = true;
+					}
+					//std::cout << button << " is not a valid gesture right now!" << std::endl;
 				}
 				//to do real-time, we need to call the random forest here.
 				//need to write a function that takes LeapCapture data and tests on forest
 				else
 				{
+					std::cout << "before capture\n";
 					lc.writeArffFile(button);
 					std::cout << button << " captured!  " << (ctr%10+1) << std::endl;
-					ctr++;
-
 				}
+			}
+			else if (jFlag || zFlag) {
+				std::cout << "capturing dynamic gesture" << std::endl;
+				if (GetAsyncKeyState(button) && captured) {
+					if (button == 'J') {
+						jFlag = false;
+						lc.CalculateVelocity();
+						std::cout << "write j" << std::endl;
+						lc.writeArffFile(button);
+						std::cout << button << " captured!  " << std::endl;
+						lc.ClearVelocity();
+					}
+					else if (button == 'Z') {
+						zFlag = false;
+						lc.CalculateVelocity();
+						std::cout << "write z" << std::endl;
+						lc.writeArffFile(button);
+						std::cout << button << " captured!  " << std::endl;
+						lc.ClearVelocity();
+					}
+					else {
+						std::cout << "Expecting J or Z!" << std::endl;
+					}
+				}
+				else
+				{
+
+					lc.Capture(true);
+				}
+				
 			}
 		}
 		//can this be a shorter sleep and still get the right data?
@@ -159,6 +196,11 @@ void Capture(std::string mode)
 		lc.clearVectors();
 	}
 }
+
+void CaptureDynamic() {
+		
+}
+
 std::vector<GestureVector> parffArse(std::string path)
 {
 	std::vector<GestureVector> data;

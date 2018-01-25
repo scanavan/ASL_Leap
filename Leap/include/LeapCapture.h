@@ -8,18 +8,20 @@ class LeapCapture
 public:
 	LeapCapture();
 	~LeapCapture();
-	bool Capture();
+	bool Capture(bool dynamic=false);
 	void writeArffFile(char button);
 	void clearVectors();
 	void WriteArffFileHeader(std::string outName);
 	void GetGestureVector(std::vector<float>& data);
 	void AppendArffFile(std::string outName);
-
+	void ClearVelocity();
+	void CalculateVelocity();
 private:
 	Leap::Vector palmPosition;
 	Leap::Vector stablePalmPosition;
 	Leap::Vector normal;
 	Leap::Vector direction;
+	Leap::Vector average;
 	float pinchStrength;
 	float grabStrength;
 	float width;
@@ -27,6 +29,8 @@ private:
 	std::vector<Leap::Vector> fingertips;
 	std::vector<Leap::Vector> stableTipPositions;
 	std::vector<int> extendedFingers;
+	Leap::Vector velocity;
+	std::vector<Leap::Vector>velocities;
 	Leap::Frame referenceFrame;
 	int ctr = 1;
 	Leap::Finger frontMostFinger;
