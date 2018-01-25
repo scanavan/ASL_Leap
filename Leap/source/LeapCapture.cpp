@@ -104,7 +104,7 @@ void LeapCapture::WriteArffFileHeader(std::string outName)
 		/*<< "@ATTRIBUTE stablePalmPositionX NUMERIC\n"
 		<< "@ATTRIBUTE stablePalmPositionY NUMERIC\n"
 		<< "@ATTRIBUTE stablePalmPositionZ NUMERIC\n"*/
-		<< "@ATTRIBUTE scaleFactor NUMERIC\n"
+		<< "@ATTRIBUTE scaleFactor NUMERIC\n"			//ICIP - why are we using scale factor in features?
 		//<< "@ATTRIBUTE frontMostFinger NUMERIC\n"
 		<< "@ATTRIBUTE fingertipDistanceX1 NUMERIC\n"
 		<< "@ATTRIBUTE fingertipDistanceY1 NUMERIC\n"
@@ -124,6 +124,7 @@ void LeapCapture::WriteArffFileHeader(std::string outName)
 		<< "@ATTRIBUTE averageVelocityX NUMERIC\n"
 		<< "@ATTRIBUTE averageVelocityY NUMERIC\n"
 		<< "@ATTRIBUTE averageVelocityZ NUMERIC\n"
+		//ICIP - change class to letters A-Z
 		<< "@ATTRIBUTE class {G01,G02,G03,G04,G05,G06,G07,G08,G09,G10,G11,G12,G13,G14,G15,G16,G17,G18,G19,G20,G21,G22,G23,G24,G25,G26}\n"
 		<< "\n@DATA\n";
 }
@@ -275,6 +276,7 @@ void LeapCapture::writeArffFile(char button)
 	}
 	outArffFile << average.x << ", " << average.y << ", " << average.z << ", ";
 	int label = button - 64;
+	//ICIP - Change this to letter - might just need to write button to file and not int cast above
 	if (label < 10)
 	{
 		outArffFile << "G0";
