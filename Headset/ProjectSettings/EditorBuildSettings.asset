@@ -6,5 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/ClassRoom.unity
+    guid: 4c5391dec130efd4f96f6d0c282bf1de
+  - enabled: 1
     path: Assets/LetterScene.unity
     guid: 322a07f2d58d9ec4eba04a1f738e06d6

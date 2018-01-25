@@ -250,6 +250,9 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
+    <Reference Include="LeapCSharp.NET3.5">
+      <HintPath>Assets/Plugins/LeapCSharp.NET3.5.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>C:/Users/CVPR_Research/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.ads@1.0.7/Editor/UnityEditor.Advertisements.dll</HintPath>
     </Reference>
@@ -281,6 +284,28 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\LeapMotion\Editor\CustomEditorBase.cs" />
+    <Compile Include="Assets\LeapMotion\Editor\LeapHandControllerEditor.cs" />
+    <Compile Include="Assets\LeapMotion\Editor\LeapImageRetrieverEditor.cs" />
+    <Compile Include="Assets\LeapMotion\Editor\LeapServiceProviderEditor.cs" />
+    <Compile Include="Assets\LeapMotion\Editor\Tests\FrameValidator.cs" />
+    <Compile Include="Assets\LeapMotion\Editor\Tests\HandFactoryTest.cs" />
+    <Compile Include="Assets\LeapMotion\Editor\Tests\TransformCopyTest.cs" />
+    <Compile Include="Assets\LeapMotion\Scripts\Algorithms\Editor\Tests\SlidingMaxTest.cs" />
+    <Compile Include="Assets\LeapMotion\Scripts\Attributes\Editor\CombinablePropertyDrawer.cs" />
+    <Compile Include="Assets\LeapMotion\Scripts\DataStructures\Editor\SerializableDictionaryEditor.cs" />
+    <Compile Include="Assets\LeapMotion\Scripts\DataStructures\Editor\Tests\DequeTests.cs" />
+    <Compile Include="Assets\LeapMotion\Scripts\DataStructures\Editor\Tests\MinHeapTest.cs" />
+    <Compile Include="Assets\LeapMotion\Scripts\DataStructures\Editor\Tests\ProduceConsumeBufferTest.cs" />
+    <Compile Include="Assets\LeapMotion\Scripts\Query\Editor\ListAndArrayExtensionTests.cs" />
+    <Compile Include="Assets\LeapMotion\Scripts\Query\Editor\QueryTests.cs" />
+    <Compile Include="Assets\LeapMotion\Scripts\Utils\Editor\EditorResources.cs" />
+    <Compile Include="Assets\LeapMotion\Scripts\Utils\Editor\SingleLayerEditor.cs" />
+    <Compile Include="Assets\LeapMotion\Scripts\VR\Editor\EyeTypeEditor.cs" />
+    <Compile Include="Assets\LeapMotion\Scripts\VR\Editor\LeapTemporalWarpingEditor.cs" />
+    <Compile Include="Assets\LeapMotionModules\Hands\Scripts\Editor\LeapHandsAutoRigEditor.cs" />
+    <Compile Include="Assets\LeapMotionModules\UIInput\Editor\CompressibleUIEditor.cs" />
+    <Compile Include="Assets\LeapMotionModules\UIInput\Editor\LeapInputModuleEditor.cs" />
     <Compile Include="Assets\SteamVR\Editor\SteamVR_Editor.cs" />
     <Compile Include="Assets\SteamVR\Editor\SteamVR_Preferences.cs" />
     <Compile Include="Assets\SteamVR\Editor\SteamVR_RenderModelEditor.cs" />
@@ -289,6 +314,16 @@
     <Compile Include="Assets\SteamVR\Editor\SteamVR_Update.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\LeapMotion\Dependencies.txt" />
+    <None Include="Assets\LeapMotion\README_BEFORE_UPDATING.txt" />
+    <None Include="Assets\LeapMotion\Resources\LeapCG.cginc" />
+    <None Include="Assets\LeapMotion\Resources\PassthroughBackground.shader" />
+    <None Include="Assets\LeapMotion\Resources\PassthroughForeground.shader" />
+    <None Include="Assets\LeapMotion\Resources\RuntimeGizmos.shader" />
+    <None Include="Assets\LeapMotion\Resources\ThresholdOverlay.shader" />
+    <None Include="Assets\LeapMotion\Resources\VertexOffsetShader.shader" />
+    <None Include="Assets\LeapMotion\Version.txt" />
+    <None Include="Assets\LeapMotion\readme.txt" />
     <None Include="Assets\SteamVR\InteractionSystem\Core\Shaders\SeeThru.shader" />
     <None Include="Assets\SteamVR\InteractionSystem\Core\Shaders\Silhouette.shader" />
     <None Include="Assets\SteamVR\InteractionSystem\Hints\Shaders\ControllerButtonHints.shader" />
