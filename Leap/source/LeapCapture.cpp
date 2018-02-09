@@ -124,7 +124,8 @@ void LeapCapture::WriteArffFileHeader(std::string outName)
 		<< "@ATTRIBUTE averageVelocityX NUMERIC\n"
 		<< "@ATTRIBUTE averageVelocityY NUMERIC\n"
 		<< "@ATTRIBUTE averageVelocityZ NUMERIC\n"
-		<< "@ATTRIBUTE class {G01,G02,G03,G04,G05,G06,G07,G08,G09,G10,G11,G12,G13,G14,G15,G16,G17,G18,G19,G20,G21,G22,G23,G24,G25,G26}\n"
+		//<< "@ATTRIBUTE class {G01,G02,G03,G04,G05,G06,G07,G08,G09,G10,G11,G12,G13,G14,G15,G16,G17,G18,G19,G20,G21,G22,G23,G24,G25,G26}\n"
+		<< "@ATTRIBUTE class {A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z}"
 		<< "\n@DATA\n";
 }
 void LeapCapture::ClearVelocity()
@@ -274,8 +275,9 @@ void LeapCapture::writeArffFile(char button)
 		outArffFile << fingertips[i].x - palmPosition.x << ", " << fingertips[i].y - palmPosition.y << ", " << fingertips[i].z - palmPosition.z << ", ";
 	}
 	outArffFile << average.x << ", " << average.y << ", " << average.z << ", ";
-	int label = button - 64;
-	if (label < 10)
+	//int label = button - 64;
+	outArffFile << button << std::endl;
+	/*if (label < 10)
 	{
 		outArffFile << "G0";
 	}
@@ -283,7 +285,7 @@ void LeapCapture::writeArffFile(char button)
 	{
 		outArffFile << "G";
 	}
-	outArffFile << label << "\n";
+	outArffFile << label << "\n";*/
 }
 
 void LeapCapture::clearVectors()

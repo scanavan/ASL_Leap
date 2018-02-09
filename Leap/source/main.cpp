@@ -43,7 +43,7 @@ void PassGestureToSocket(std::string gesture)
 }
 
 std::string GestureToString(int gesture) {
-	std::string alphabet[] = { "No Solution", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+	std::string alphabet[] = { "~", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 	return alphabet[gesture];
 }
 
@@ -118,7 +118,7 @@ void trainForest(std::vector<GestureVector> gesture, RandomizedForest forest, st
 
 	forest.save(filename);
 }
-void Capture(std::string mode)
+void Capture(std::string mode, std::string arffFile)
 {
 	int ctr = 0;
 	LeapCapture lc;
@@ -126,12 +126,12 @@ void Capture(std::string mode)
 	if (mode == "write")
 	{
 		std::cout << "write" << std::endl;
-		lc.WriteArffFileHeader("demo.arff");//"C:/Users/IASA-FRI/Documents/leapArffFiles/leapData.arff"
+		lc.WriteArffFileHeader(arffFile);//"C:/Users/IASA-FRI/Documents/leapArffFiles/leapData.arff"
 	}
 	else if (mode == "append")
 	{
 		//outArffFile.open("test.arff", std::fstream::in | std::fstream::out | std::fstream::app);
-		lc.AppendArffFile("demo.arff");
+		lc.AppendArffFile(arffFile);
 	}
 	while (1)
 	{
@@ -325,11 +325,13 @@ int main(int argc, char* argv[])
 	}
 	else if (mode.compare("capture new") == 0)
 	{
-		Capture("write");
+		std::string arffFile(argv[2]);
+		Capture("write", arffFile);
 	}
 	else if (mode.compare("capture append") == 0)
 	{
-		Capture("append");
+		std::string arffFile(argv[2]);
+		Capture("append", arffFile);
 	}
 	return 0;
 }
