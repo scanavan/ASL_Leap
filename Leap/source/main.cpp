@@ -197,24 +197,20 @@ void Capture(std::string mode, std::string arffFile)
 	}
 }
 
-void CaptureDynamic() {
-		
-}
-
 std::vector<GestureVector> parffArse(std::string path)
 {
 	std::vector<GestureVector> data;
 	std::ifstream ifs;
-	std::string line;
+	std::string line("");
 	ifs.open(path, std::ifstream::in);
 
 	if (ifs.is_open()) {
-		std::getline(ifs, line);
 		while (line != "@DATA") {
 			if (ifs.eof()) { break; }
+			//I think this getline is causing the first line to be absorbed
+			//Also, if there are only a few lines the program will crash
 			std::getline(ifs, line);
 		}
-		std::getline(ifs, line);
 		while (true) {
 			std::getline(ifs, line);
 			if (ifs.eof()) { 
@@ -228,7 +224,6 @@ std::vector<GestureVector> parffArse(std::string path)
 			while (std::getline(ss, token, ',')) {
 				if (token[1] == 'G') {
 					lab = std::stoi(token.substr(2, 2));
-					if (lab >= 10) { lab--; }
 				}
 				else {
 					val.push_back(std::stof(token, &sz));
@@ -272,7 +267,7 @@ void Test(std::string treeFile)
 		}
 		else
 		{
-			letter = "No Hand";
+			letter = "/";
 		}
 		PassGestureToSocket(letter);
 		//DisplayLetter(classify);
@@ -281,7 +276,7 @@ void Test(std::string treeFile)
 }
 void Train(std::string arffFile, std::string treeName)
 {
-	unsigned int nb_labels = 5;
+	unsigned int nb_labels = 27;
 	unsigned vector_size;
 	double minV = -2. * PI;
 	//double maxV = 2. * PI;

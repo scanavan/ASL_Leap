@@ -41,10 +41,10 @@ void LeapCapture::WriteArffFileHeader(std::string outName)
 	outArffFile << "% 1. Title: Leap Database\n"
 		<< "%\n"
 		<< "% 2. Sources :\n"
-		<< "% (a)Creator : NIH and Binghamton FRI 2016\n"
-		<< "% (b)Date : Fall 2016\n"
+		<< "% (a)Creator : USF CVPR Research\n"
+		<< "% (b)Date : Spring 2018\n"
 		<< "%\n"
-		<< "@RELATION asd\n"
+		<< "@RELATION Gestures\n"
 		<< "\n"
 		<< "@ATTRIBUTE fingerDirection1x NUMERIC\n"
 		<< "@ATTRIBUTE fingerDirection1y NUMERIC\n"
@@ -124,8 +124,9 @@ void LeapCapture::WriteArffFileHeader(std::string outName)
 		<< "@ATTRIBUTE averageVelocityX NUMERIC\n"
 		<< "@ATTRIBUTE averageVelocityY NUMERIC\n"
 		<< "@ATTRIBUTE averageVelocityZ NUMERIC\n"
-		//<< "@ATTRIBUTE class {G01,G02,G03,G04,G05,G06,G07,G08,G09,G10,G11,G12,G13,G14,G15,G16,G17,G18,G19,G20,G21,G22,G23,G24,G25,G26}\n"
-		<< "@ATTRIBUTE class {A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z}\n";
+		<< "@ATTRIBUTE class {G01,G02,G03,G04,G05,G06,G07,G08,G09,G10,G11,G12,G13,G14,G15,G16,G17,G18,G19,G20,G21,G22,G23,G24,G25,G26}\n\n"
+		//<< "@ATTRIBUTE class {A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z}\n\n"
+		<< "@DATA\n";
 }
 void LeapCapture::ClearVelocity()
 {
@@ -275,7 +276,16 @@ void LeapCapture::writeArffFile(char button)
 	}
 	outArffFile << average.x << ", " << average.y << ", " << average.z << ", ";
 
-	outArffFile << button << std::endl;
+	int label = button - 64;
+	if (label < 10)
+	{
+		outArffFile << "G0";
+	}
+	else
+	{
+		outArffFile << "G";
+	}
+	outArffFile << label << "\n";
 }
 
 void LeapCapture::clearVectors()
